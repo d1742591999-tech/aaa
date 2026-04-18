@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>骨折AI分析系统</title>
+</head>
+<body>
+    <h1>骨折类型分析系统</h1>
+    <form id="uploadForm">
+        <input type="file" name="image" />
+        <button type="submit">上传并分析</button>
+    </form>
+
+    <pre id="result"></pre>
+
+    <script>
+    document.getElementById("uploadForm").onsubmit = async function(e){
+        e.preventDefault();
+        let formData = new FormData(this);
+
+        let res = await fetch("/predict", {
+            method: "POST",
+            body: formData
+        });
+
+        let data = await res.json();
+        document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+    }
+    </script>
+</body>
+</html>
